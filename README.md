@@ -6,15 +6,7 @@ A collection of custom slash commands for Claude Code to enhance your developmen
 
 This repository contains custom slash commands that extend Claude Code's functionality to enhance your development workflow and boost productivity.
 
-**Current Focus:** The `/issue` command provides comprehensive GitHub issue management, allowing you to create, track, and manage issues directly from Claude Code without leaving your development environment.
-
-**Future Vision:** This is just the beginning! Over time, this collection will expand to include additional commands that streamline various aspects of your workflow, including:
-- Project scaffolding and setup automation
-- Code review and quality analysis tools
-- Deployment and CI/CD integration
-- Testing and debugging utilities
-- Documentation generation
-- And much more based on community needs and contributions
+The `/issue` command provides comprehensive GitHub issue management, allowing you to create, track, and manage issues directly from Claude Code without leaving your development environment.
 
 These commands integrate seamlessly with the GitHub CLI and other development tools to help you manage your projects more efficiently.
 
