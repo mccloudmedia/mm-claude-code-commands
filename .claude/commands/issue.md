@@ -202,6 +202,8 @@ Available /issue commands:
   /issue assign [number]   - Assign an issue to yourself or someone else
   /issue status [number]   - Update issue status/labels
   /issue search [query]    - Search issues by keyword
+  /issue find-bugs         - Analyze code for bugs and improvement opportunities
+  /issue find-features     - Suggest enhancements and new features
   /issue recommend         - Recommend top 3 issues to work on next
   /issue help              - Show this help message
 ```
@@ -380,6 +382,221 @@ Search for issues by keyword or filter.
 ```bash
 gh issue list --search "[query]"
 ```
+
+### `find-bugs` - Analyze code for bugs and improvement opportunities
+Perform a comprehensive code analysis to identify bugs, potential issues, and coding practice improvements.
+
+**IMPORTANT:** This command analyzes code and creates issues for findings - it does NOT implement fixes.
+
+**Steps:**
+1. **Analyze the codebase:**
+   - Use Read and Grep tools to examine code files
+   - Look for common bug patterns:
+     - Unhandled errors or exceptions
+     - Null/undefined reference possibilities
+     - Race conditions or async issues
+     - Memory leaks or resource management issues
+     - Security vulnerabilities (SQL injection, XSS, etc.)
+     - Logic errors or edge cases not handled
+     - Dead code or unreachable statements
+   - Identify coding practice improvements:
+     - Code duplication (DRY violations)
+     - Poor error handling
+     - Missing input validation
+     - Inconsistent naming conventions
+     - Missing or inadequate type checking
+     - Performance anti-patterns
+     - Lack of documentation or comments where needed
+
+2. **Categorize findings:**
+   - **Critical bugs:** Security issues, data loss risks, crashes
+   - **High priority bugs:** Functionality broken, major errors
+   - **Medium priority bugs:** Edge cases, minor errors
+   - **Low priority bugs:** Code quality issues, optimization opportunities
+
+3. **Check for existing issues:**
+   - Search existing issues to avoid duplicates
+   - Use `gh issue list --search` with relevant keywords
+
+4. **Present findings to user:**
+   - Show findings organized by priority
+   - Include:
+     - File and line number references
+     - Description of the issue
+     - Why it's a problem (impact/risk)
+     - Suggested priority level
+   - Limit initial display to top 5-10 most important findings
+
+5. **Ask user which issues to create:**
+   - Let user select which findings should become issues
+   - Or offer to create issues for all high/critical findings
+
+6. **Create issues for selected findings:**
+   - Use `/issue new` workflow for each selected finding
+   - Title format: "Fix [brief description]"
+   - Labels: `bug`, appropriate priority label
+   - Body includes:
+     - File/line references
+     - Detailed description
+     - Why it's important
+     - Suggested approach (if applicable)
+
+**Analysis Scope:**
+- Focus on source code files (exclude node_modules, build outputs, etc.)
+- Prioritize core application logic
+- Consider project type (web app, API, library, etc.)
+
+**Output Format:**
+```
+Code Analysis Results
+====================
+
+CRITICAL ISSUES (0 found)
+[List critical bugs]
+
+HIGH PRIORITY (2 found)
+1. [File:Line] - Unhandled promise rejection in authentication flow
+   Impact: Could cause silent failures during login
+   Recommendation: Add .catch() handler and user feedback
+
+2. [File:Line] - SQL injection vulnerability in search query
+   Impact: Security risk - attackers could access database
+   Recommendation: Use parameterized queries
+
+MEDIUM PRIORITY (3 found)
+[List medium priority issues]
+
+RECOMMENDATIONS (5 found)
+[List code quality improvements]
+
+Would you like me to create issues for these findings?
+```
+
+**Implementation Notes:**
+- Use Grep tool to search for anti-patterns
+- Use Read tool to examine specific files
+- Be thorough but prioritize actionable findings
+- Don't overwhelm user - focus on highest impact issues first
+
+### `find-features` - Suggest enhancements and new features
+Analyze the application to suggest valuable enhancements and new features that would improve the product.
+
+**IMPORTANT:** This command suggests and creates issues for features - it does NOT implement them.
+
+**Steps:**
+1. **Analyze the application:**
+   - Use Read and Grep tools to understand:
+     - Current features and functionality
+     - Code structure and architecture
+     - User-facing components
+     - API endpoints or interfaces
+     - Configuration and settings
+     - Documentation and README
+   - Look for:
+     - Incomplete features (TODOs, FIXMEs)
+     - Missing common functionality
+     - User experience gaps
+     - Accessibility issues
+     - Performance optimization opportunities
+     - Integration opportunities
+     - Documentation gaps
+
+2. **Review existing issues:**
+   - Check open issues for feature requests
+   - Identify patterns in existing enhancement requests
+   - Use `gh issue list --label enhancement`
+
+3. **Categorize suggestions:**
+   - **High impact enhancements:**
+     - Features that significantly improve core functionality
+     - User experience improvements affecting main workflows
+     - Performance optimizations for bottlenecks
+     - Accessibility improvements
+   - **Medium impact enhancements:**
+     - Nice-to-have features complementing existing functionality
+     - UI/UX polish and refinements
+     - Developer experience improvements
+   - **New feature ideas:**
+     - Complementary features expanding capabilities
+     - Integration with popular tools/services
+     - Advanced features for power users
+
+4. **Prioritize by impact:**
+   - Consider:
+     - User benefit (how many users affected, how much impact)
+     - Implementation complexity vs. value
+     - Alignment with project goals
+     - Dependencies on other features
+   - Calculate rough impact score for each suggestion
+
+5. **Present findings to user:**
+   - Show top 5-10 suggestions organized by impact
+   - Include for each:
+     - Feature/enhancement description
+     - Why it's valuable (user benefit)
+     - Estimated impact level
+     - Potential implementation approach
+     - Any dependencies or prerequisites
+
+6. **Ask user which suggestions to create as issues:**
+   - Let user select which suggestions to track
+   - Offer to create issues for high-impact items
+
+7. **Create issues for selected suggestions:**
+   - Use `/issue new` workflow
+   - Title format: "Add [feature]" or "Improve [existing feature]"
+   - Labels: `enhancement`, `feature`, or relevant labels
+   - Body includes:
+     - Clear description of the feature/enhancement
+     - User benefit and use cases
+     - Acceptance criteria
+     - Optional: Technical approach suggestions
+
+**Analysis Focus:**
+- User experience and usability
+- Feature completeness
+- Performance and optimization
+- Accessibility and inclusivity
+- Developer experience
+- Integration and extensibility
+
+**Output Format:**
+```
+Feature Analysis Results
+========================
+
+HIGH IMPACT ENHANCEMENTS (3 found)
+
+1. Add user authentication with OAuth providers
+   Benefit: Users can sign in with existing accounts, reducing friction
+   Impact: High - affects all users, improves security and UX
+   Approach: Integrate popular OAuth providers (Google, GitHub, etc.)
+
+2. Implement dark mode theme
+   Benefit: Better user experience in low-light environments
+   Impact: High - frequently requested, improves accessibility
+   Approach: Add theme toggle, CSS variables for colors
+
+3. Add export functionality for data
+   Benefit: Users can backup and use their data externally
+   Impact: High - critical feature for user data ownership
+   Approach: Support JSON, CSV export formats
+
+MEDIUM IMPACT ENHANCEMENTS (4 found)
+[List medium impact suggestions]
+
+NEW FEATURE IDEAS (3 found)
+[List new feature suggestions]
+
+Which suggestions would you like me to create as issues?
+```
+
+**Best Practices:**
+- Focus on user value, not just technical capabilities
+- Consider project scope and goals
+- Be realistic about complexity vs. benefit
+- Suggest features that align with existing functionality
+- Include both quick wins and strategic additions
 
 ## General Guidelines
 

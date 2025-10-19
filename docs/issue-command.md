@@ -19,6 +19,8 @@ Complete guide to using the `/issue` command for GitHub issue management in Clau
   - [assign](#assign)
   - [status](#status)
   - [search](#search)
+  - [find-bugs](#find-bugs)
+  - [find-features](#find-features)
   - [help](#help)
 - [Workflows](#workflows)
 - [Best Practices](#best-practices)
@@ -438,6 +440,177 @@ Search for issues by keyword or filter.
 /issue search label:bug
 # Finds all issues with bug label
 ```
+
+---
+
+### `find-bugs`
+
+Analyze your codebase to identify bugs, potential issues, and coding practice improvements.
+
+**Usage:**
+```
+/issue find-bugs
+```
+
+**What it does:**
+
+This command performs a comprehensive code analysis to discover:
+- **Critical bugs:** Security vulnerabilities, data loss risks, crash scenarios
+- **High priority bugs:** Broken functionality, major errors, unhandled exceptions
+- **Medium priority bugs:** Edge cases not handled, minor errors
+- **Code quality issues:** Best practice violations, optimization opportunities
+
+**Analysis includes:**
+- Unhandled errors or exceptions
+- Null/undefined reference possibilities
+- Race conditions or async/await issues
+- Security vulnerabilities (SQL injection, XSS, etc.)
+- Logic errors or missing edge case handling
+- Code duplication (DRY violations)
+- Poor error handling patterns
+- Missing input validation
+- Performance anti-patterns
+- Inconsistent naming or code style
+
+**Workflow:**
+
+1. Claude analyzes your codebase files
+2. Identifies potential bugs and issues
+3. Categorizes findings by severity and impact
+4. Checks existing issues to avoid duplicates
+5. Presents findings organized by priority
+6. Asks which findings should become issues
+7. Creates GitHub issues for selected findings
+
+**Output Format:**
+
+```
+Code Analysis Results
+====================
+
+CRITICAL ISSUES (0 found)
+
+HIGH PRIORITY (2 found)
+1. src/auth.js:45 - Unhandled promise rejection in login
+   Impact: Could cause silent failures during authentication
+   Priority: High
+
+2. src/api.js:123 - SQL injection vulnerability in search
+   Impact: Security risk - database could be compromised
+   Priority: Critical
+
+MEDIUM PRIORITY (3 found)
+[Additional findings...]
+
+RECOMMENDATIONS (5 found)
+[Code quality improvements...]
+```
+
+**Example:**
+
+```
+/issue find-bugs
+
+# Analyzes the codebase
+# Finds 2 critical issues, 3 high priority issues
+# Shows findings with file/line references
+# Asks: "Would you like me to create issues for these findings?"
+# Creates issues for selected items with proper labels and descriptions
+```
+
+**Best Practices:**
+- Run regularly during development
+- Address critical and high priority findings first
+- Use findings to improve code quality over time
+- Create issues for items you plan to fix later
+
+**Note:** This command analyzes code and creates issues - it does NOT implement fixes automatically.
+
+---
+
+### `find-features`
+
+Analyze your application to suggest valuable enhancements and new features that would improve the product.
+
+**Usage:**
+```
+/issue find-features
+```
+
+**What it does:**
+
+This command performs an intelligent analysis to suggest:
+- **High impact enhancements:** Improvements to core functionality that benefit many users
+- **Medium impact enhancements:** Nice-to-have features that complement existing functionality
+- **New feature ideas:** Complementary features that expand capabilities
+
+**Analysis includes:**
+- Current features and functionality gaps
+- Incomplete features (TODOs, FIXMEs in code)
+- User experience improvements
+- Accessibility enhancements
+- Performance optimization opportunities
+- Integration possibilities with popular tools
+- Documentation gaps
+- Developer experience improvements
+
+**Workflow:**
+
+1. Claude analyzes your application structure and code
+2. Reviews existing issues for patterns
+3. Identifies enhancement opportunities
+4. Categorizes by impact and value
+5. Presents top suggestions with explanations
+6. Asks which suggestions to create as issues
+7. Creates GitHub issues for selected features
+
+**Output Format:**
+
+```
+Feature Analysis Results
+========================
+
+HIGH IMPACT ENHANCEMENTS (3 found)
+
+1. Add OAuth authentication (Google, GitHub)
+   Benefit: Reduces signup friction, improves security
+   Impact: Affects all users, highly requested feature
+
+2. Implement dark mode theme
+   Benefit: Better UX in low-light environments
+   Impact: Accessibility improvement, frequently requested
+
+3. Add data export functionality (JSON, CSV)
+   Benefit: User data ownership and portability
+   Impact: Critical feature for user trust
+
+MEDIUM IMPACT ENHANCEMENTS (4 found)
+[Additional suggestions...]
+
+NEW FEATURE IDEAS (3 found)
+[Innovative additions...]
+```
+
+**Example:**
+
+```
+/issue find-features
+
+# Analyzes your application
+# Identifies 3 high-impact, 4 medium-impact enhancements
+# Presents findings with user benefit explanations
+# Asks: "Which suggestions would you like me to create as issues?"
+# Creates issues for selected items with acceptance criteria
+```
+
+**Best Practices:**
+- Run when planning new development cycles
+- Focus on user value over technical complexity
+- Consider both quick wins and strategic additions
+- Balance feature additions with maintenance work
+- Use findings to inform product roadmap
+
+**Note:** This command suggests and creates issues for features - it does NOT implement them automatically.
 
 ---
 

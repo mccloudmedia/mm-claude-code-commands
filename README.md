@@ -104,6 +104,8 @@ Comprehensive GitHub issue management directly from Claude Code.
 - `/issue work [number|description]` - Start working on an issue (creates branch, intelligently handles existing/new issues)
 - `/issue check` - Check and close completed issues
 - `/issue consolidate` - Consolidate duplicate/related issues
+- `/issue find-bugs` - Analyze code for bugs and improvement opportunities
+- `/issue find-features` - Suggest enhancements and new features
 - `/issue recommend` - Get top 3 recommended issues to work on
 - `/issue help` - Show detailed help
 
